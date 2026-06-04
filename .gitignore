@@ -1,0 +1,93 @@
+# Python
+
+**pycache**/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+
+venv/
+.env/
+.venv/
+
+# Environment Variables
+
+.env
+.env.*
+
+# VS Code
+
+.vscode/
+
+# PyCharm
+
+.idea/
+
+# macOS
+
+.DS_Store
+
+# Logs
+
+*.log
+
+# Testing
+
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+
+.ipynb_checkpoints/
+
+# Alembic
+
+alembic/versions/**pycache**/
+
+# Build
+
+build/
+dist/
+*.egg-info/
+
+# SQLite
+
+*.db
+*.sqlite3
+
+# MyPy
+
+.mypy_cache/
+
+# Ruff
+
+.ruff_cache/
+
+# Coverage
+
+coverage.xml
+
+# Temporary Files
+
+tmp/
+temp/
+
+# Secrets
+
+secrets.json
+credentials.json
+
+# Uploaded Documents (for future RAG phase)
+
+uploads/
+documents/
+
+# Vector Store Artifacts (future)
+
+vector_store/
+chroma_db/
+
+# OS files
+
+Thumbs.db
