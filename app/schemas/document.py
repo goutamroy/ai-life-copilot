@@ -16,3 +16,10 @@ class DocumentResponse(BaseModel):
 class UploadResponse(BaseModel):
     message: str
     document: DocumentResponse
+
+class UploadDocumentResponse(BaseModel):
+    message: str
+    filename: str
+    pages: int
+    characters: int
+    chunks: int

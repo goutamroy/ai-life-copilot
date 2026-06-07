@@ -1,3 +1,5 @@
+import os
+
 from fastapi import (
     APIRouter,
     Depends,
@@ -10,11 +12,18 @@ from sqlalchemy.orm import Session
 
 from app.core.database import get_db
 from app.api.routes.users import get_current_user
+
 from app.models.user import User
 from app.models.document import Document
+
 from app.schemas.document import (
-    DocumentResponse,
-    UploadResponse
+    UploadDocumentResponse
+)
+
+from app.services.pdf_service import PDFService
+from app.services.chunking_service import ChunkingService
+from app.services.document_chunk_service import (
+    DocumentChunkService
 )
 
 router = APIRouter(
@@ -32,21 +41,47 @@ def document_health():
 
 @router.post(
     "/upload",
-    response_model=UploadResponse
+    response_model=UploadDocumentResponse
 )
 def upload_document(
     file: UploadFile = File(...),
     db: Session = Depends(get_db),
-    current_user: User = Depends(
-        get_current_user
-    )
+    current_user: User = Depends(get_current_user)
 ):
+    # Validate PDF
     if file.content_type != "application/pdf":
         raise HTTPException(
             status_code=400,
             detail="Only PDF files allowed"
         )
 
+    # Save file locally
+    upload_path = os.path.join(
+        "uploads",
+        file.filename
+    )
+
+    with open(upload_path, "wb") as buffer:
+        buffer.write(
+            file.file.read()
+        )
+
+    # Extract text
+    text = PDFService.extract_text(
+        upload_path
+    )
+
+    # Count pages
+    pages = PDFService.get_page_count(
+        upload_path
+    )
+
+    # Create chunks
+    chunks = ChunkingService.chunk_text(
+        text
+    )
+
+    # Save document metadata
     document = Document(
         filename=file.filename,
         content_type=file.content_type,
@@ -57,7 +92,17 @@ def upload_document(
     db.commit()
     db.refresh(document)
 
+    # Save chunks
+    DocumentChunkService.save_chunks(
+        db=db,
+        document_id=document.id,
+        chunks=chunks
+    )
+
     return {
         "message": "Document uploaded successfully",
-        "document": document
+        "filename": file.filename,
+        "pages": pages,
+        "characters": len(text),
+        "chunks": len(chunks)
     }
