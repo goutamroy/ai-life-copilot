@@ -12,12 +12,14 @@ class RAGService:
     @staticmethod
     def answer_question(
         db,
-        question: str
+        question: str,
+        user_id: int
     ):
         retrieval_result = (
             RetrievalService.retrieve_context(
                 db=db,
-                question=question
+                question=question,
+                user_id=user_id
             )
         )
 

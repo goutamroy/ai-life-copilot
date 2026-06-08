@@ -13,6 +13,7 @@ class RetrievalService:
     def retrieve_context(
         db,
         question: str,
+        user_id: int,
         limit: int = 5
     ):
         query_embedding = (
@@ -24,6 +25,7 @@ class RetrievalService:
             VectorSearchService.search(
                 db=db,
                 query_embedding=query_embedding,
+                user_id=user_id,
                 limit=limit
             )
         )
