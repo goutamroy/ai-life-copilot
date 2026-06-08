@@ -20,6 +20,8 @@ class Settings(BaseSettings):
 
     AZURE_OPENAI_DEPLOYMENT_NAME: str = ""
 
+    AZURE_OPENAI_EMBEDDING_DEPLOYMENT: str = ""
+
     class Config:
         env_file = ".env"
 
