@@ -1,6 +1,4 @@
-from app.models.document_chunk import (
-    DocumentChunk
-)
+from app.models.document_chunk import DocumentChunk
 
 
 class DocumentChunkService:
@@ -11,6 +9,8 @@ class DocumentChunkService:
         document_id,
         chunks
     ):
+        saved_chunks = []
+
         for index, chunk in enumerate(chunks):
 
             document_chunk = DocumentChunk(
@@ -20,5 +20,10 @@ class DocumentChunkService:
             )
 
             db.add(document_chunk)
+            db.flush()
+
+            saved_chunks.append(document_chunk)
 
         db.commit()
+
+        return saved_chunks

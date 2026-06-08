@@ -25,6 +25,12 @@ from app.services.chunking_service import ChunkingService
 from app.services.document_chunk_service import (
     DocumentChunkService
 )
+from app.services.embedding_service import (
+    EmbeddingService
+)
+from app.services.document_embedding_service import (
+    DocumentEmbeddingService
+)
 
 router = APIRouter(
     prefix="/documents",
@@ -93,11 +99,29 @@ def upload_document(
     db.refresh(document)
 
     # Save chunks
-    DocumentChunkService.save_chunks(
+    saved_chunks = (
+        DocumentChunkService.save_chunks(
         db=db,
         document_id=document.id,
         chunks=chunks
+        )
     )
+
+    embedding_service = EmbeddingService()
+
+    for chunk in saved_chunks:
+
+        embedding = (
+            embedding_service.generate_embedding(
+                chunk.chunk_text
+            )
+        )
+
+        DocumentEmbeddingService.save_embedding(
+            db=db,
+            document_chunk_id=chunk.id,
+            embedding=embedding
+        )
 
     return {
         "message": "Document uploaded successfully",

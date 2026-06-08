@@ -5,6 +5,9 @@ from app.api.routes.auth import router as auth_router
 from app.api.routes.users import router as users_router
 from app.api.routes.chat import router as chat_router
 from app.api.routes.documents import router as documents_router
+from app.api.routes.rag import (
+    router as rag_router
+)
 
 app = FastAPI(
     title="AI Life Copilot",
@@ -29,6 +32,10 @@ app.include_router(
 
 app.include_router(
     documents_router
+)
+
+app.include_router(
+    rag_router
 )
 
 
