@@ -1,14 +1,4 @@
-from app.services.retrieval_service import (
-    RetrievalService
-)
-
-from app.services.langchain_llm_service import (
-    LangChainLLMService
-)
-
-from app.services.rag_prompt_service import (
-    RAG_PROMPT
-)
+from app.agents.graph import build_graph
 
 
 class RAGService:
@@ -19,30 +9,22 @@ class RAGService:
         question: str,
         user_id: int
     ):
-        retrieval_result = (
-            RetrievalService.retrieve_context(
-                db=db,
-                question=question,
-                user_id=user_id
-            )
+
+        graph = build_graph(
+            db=db,
+            user_id=user_id
         )
 
-        context = retrieval_result["context"]
-
-        chunk_ids = retrieval_result["chunk_ids"]
-
-        llm = LangChainLLMService.get_llm()
-
-        prompt = RAG_PROMPT.format(
-            context=context,
-            question=question
+        result = graph.invoke(
+            {
+                "question": question,
+                "context": "",
+                "chunk_ids": [],
+                "answer": ""
+            }
         )
-
-        response = llm.invoke(prompt)
-
-        answer = response.content
 
         return {
-            "answer": answer,
-            "sources": chunk_ids
+            "answer": result["answer"],
+            "sources": result["chunk_ids"]
         }

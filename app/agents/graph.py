@@ -1,41 +1,55 @@
-from langgraph.graph import StateGraph
-from langgraph.graph import END
+from langgraph.graph import (
+    StateGraph,
+    END
+)
 
-from app.agents.state import AgentState
-
-from app.agents.nodes import (
-    load_memory_node,
-    generate_response_node
+from app.agents.state import RAGState
+from app.agents.retrieval_agent import retrieval_agent
+from app.agents.answer_agent import answer_agent
+from app.agents.validation_agent import (
+    validation_agent
 )
 
 
-def build_graph():
+def build_graph(db, user_id):
 
-    workflow = StateGraph(
-        AgentState
+    workflow = StateGraph(RAGState)
+
+    workflow.add_node(
+        "retrieval",
+        lambda state: retrieval_agent(
+            state,
+            db,
+            user_id
+        )
     )
 
     workflow.add_node(
-        "load_memory",
-        load_memory_node
+        "answer",
+        answer_agent
     )
 
     workflow.add_node(
-        "generate_response",
-        generate_response_node
+        "validation",
+        validation_agent
     )
 
     workflow.set_entry_point(
-        "load_memory"
+        "retrieval"
     )
 
     workflow.add_edge(
-        "load_memory",
-        "generate_response"
+        "retrieval",
+        "answer"
     )
 
     workflow.add_edge(
-        "generate_response",
+        "answer",
+        "validation"
+    )
+
+    workflow.add_edge(
+        "validation",
         END
     )
 

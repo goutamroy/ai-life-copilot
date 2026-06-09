@@ -1,8 +1,8 @@
 from typing import TypedDict
 
 
-class AgentState(TypedDict):
-    conversation_id: int
-    user_message: str
+class RAGState(TypedDict):
+    question: str
     context: str
-    response: str
+    chunk_ids: list[int]
+    answer: str
