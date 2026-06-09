@@ -1,0 +1,33 @@
+services:
+
+  postgres:
+    image: pgvector/pgvector:pg16
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ailifecopilot
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+
+    depends_on:
+      - postgres
+
+    ports:
+      - "8000:8000"
+
+    env_file:
+      - .env.docker
+
+    volumes:
+      - .:/app
+
+volumes:
+  postgres_data:
