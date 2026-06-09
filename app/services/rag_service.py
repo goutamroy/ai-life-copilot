@@ -2,8 +2,12 @@ from app.services.retrieval_service import (
     RetrievalService
 )
 
-from app.services.llm_service import (
-    AzureOpenAIProvider
+from app.services.langchain_llm_service import (
+    LangChainLLMService
+)
+
+from app.services.rag_prompt_service import (
+    RAG_PROMPT
 )
 
 
@@ -27,30 +31,16 @@ class RAGService:
 
         chunk_ids = retrieval_result["chunk_ids"]
 
-        prompt = f"""
-You are a Retrieval-Augmented Generation assistant.
+        llm = LangChainLLMService.get_llm()
 
-Rules:
-1. Use only the supplied context.
-2. If the answer is not present in the context, respond:
-   "I could not find that information in the uploaded documents."
-3. Do not invent facts.
-4. Be concise and accurate.
-
-Context:
-{context}
-
-Question:
-{question}
-
-Answer using only the context above.
-"""
-
-        llm = AzureOpenAIProvider()
-
-        answer = llm.generate_response(
-            prompt
+        prompt = RAG_PROMPT.format(
+            context=context,
+            question=question
         )
+
+        response = llm.invoke(prompt)
+
+        answer = response.content
 
         return {
             "answer": answer,
