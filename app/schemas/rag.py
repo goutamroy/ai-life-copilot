@@ -5,6 +5,7 @@ class RAGQuestionRequest(
     BaseModel
 ):
     question: str
+    conversation_id: int
 
 
 class RAGAnswerResponse(

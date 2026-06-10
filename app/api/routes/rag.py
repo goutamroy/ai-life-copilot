@@ -43,7 +43,8 @@ def ask_question(
         RAGService.answer_question(
             db=db,
             question=request.question,
-            user_id=current_user.id
+            user_id=current_user.id,
+            conversation_id=request.conversation_id
         )
     )
 

@@ -7,17 +7,20 @@ class RAGService:
     def answer_question(
         db,
         question: str,
-        user_id: int
+        user_id: int,
+        conversation_id: int
     ):
 
         graph = build_graph(
             db=db,
-            user_id=user_id
+            user_id=user_id,
+            conversation_id = conversation_id
         )
 
         result = graph.invoke(
             {
                 "question": question,
+                "chat_history": "",
                 "context": "",
                 "chunk_ids": [],
                 "answer": ""

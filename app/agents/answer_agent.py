@@ -12,6 +12,7 @@ def answer_agent(state):
     llm = LangChainLLMService.get_llm()
 
     prompt = RAG_PROMPT.format(
+        chat_history=state["chat_history"],
         context=state["context"],
         question=state["question"]
     )

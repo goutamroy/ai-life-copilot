@@ -6,14 +6,24 @@ from langgraph.graph import (
 from app.agents.state import RAGState
 from app.agents.retrieval_agent import retrieval_agent
 from app.agents.answer_agent import answer_agent
+from app.agents.memory_agent import memory_agent
 from app.agents.validation_agent import (
     validation_agent
 )
 
 
-def build_graph(db, user_id):
+def build_graph(db, user_id, conversation_id):
 
     workflow = StateGraph(RAGState)
+
+    workflow.add_node(
+        "memory",
+        lambda state: memory_agent(
+            state,
+            db,
+            conversation_id
+        )
+    )
 
     workflow.add_node(
         "retrieval",
@@ -35,6 +45,11 @@ def build_graph(db, user_id):
     )
 
     workflow.set_entry_point(
+        "memory"
+    )
+
+    workflow.add_edge(
+        "memory",
         "retrieval"
     )
 

@@ -1,32 +1,37 @@
+from sqlalchemy.orm import Session
+
 from app.models.message import Message
 
 
 class MemoryService:
 
     @staticmethod
-    def build_context(
-        db,
-        conversation_id: int
+    def get_recent_messages(
+        db: Session,
+        conversation_id: int,
+        limit: int = 5
     ):
 
         messages = (
             db.query(Message)
             .filter(
-                Message.conversation_id
-                == conversation_id
+                Message.conversation_id == conversation_id
             )
             .order_by(
-                Message.created_at.asc()
+                Message.created_at.desc()
             )
+            .limit(limit)
             .all()
         )
 
-        context = []
+        messages.reverse()
+
+        history = []
 
         for message in messages:
 
-            context.append(
+            history.append(
                 f"{message.role}: {message.content}"
             )
 
-        return "\n".join(context)
+        return "\n".join(history)
