@@ -1,6 +1,4 @@
-from app.services.langchain_llm_service import (
-    LangChainLLMService
-)
+from app.services.bedrock_llm_service import get_llm
 
 from app.services.rag_prompt_service import (
     RAG_PROMPT
@@ -9,7 +7,10 @@ from app.services.rag_prompt_service import (
 
 def answer_agent(state):
 
-    llm = LangChainLLMService.get_llm()
+    print("Answer Agent Executed")
+    print("Using AWS Bedrock Claude")
+
+    llm = get_llm()
 
     prompt = RAG_PROMPT.format(
         chat_history=state["chat_history"],

@@ -15,9 +15,6 @@ def memory_agent(
         )
     )
 
-    print("Memory Agent Executed")
-    print(history)
-    
     state["chat_history"] = history
 
     return state

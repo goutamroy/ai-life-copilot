@@ -22,6 +22,12 @@ class Settings(BaseSettings):
 
     AZURE_OPENAI_EMBEDDING_DEPLOYMENT: str = ""
 
+    # AWS Bedrock
+    AWS_REGION: str | None = None
+    AWS_ACCESS_KEY_ID: str | None = None
+    AWS_SECRET_ACCESS_KEY: str | None = None
+    BEDROCK_MODEL_ID: str | None = None
+
     class Config:
         env_file = ".env"
 
