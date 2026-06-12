@@ -1,5 +1,7 @@
 def validation_agent(state):
 
+    print("Validation Agent Executed")
+
     answer = state["answer"]
 
     if not answer:

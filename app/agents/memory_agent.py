@@ -3,18 +3,17 @@ from app.services.memory_service import (
 )
 
 
-def memory_agent(
-    state,
-    db,
-    conversation_id
-):
+def memory_agent(state):
+
+    print("Memory Agent Executed")
+
     history = (
         MemoryService.get_recent_messages(
-            db=db,
-            conversation_id=conversation_id
+            db=state["db"],
+            conversation_id=state["conversation_id"]
         )
     )
 
-    state["chat_history"] = history
+    state["memory"] = history
 
     return state

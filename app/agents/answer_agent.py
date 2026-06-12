@@ -8,13 +8,13 @@ from app.services.rag_prompt_service import (
 def answer_agent(state):
 
     print("Answer Agent Executed")
-    print("Using AWS Bedrock Claude")
+    print("State Keys:", list(state.keys()))
 
     llm = get_llm()
 
     prompt = RAG_PROMPT.format(
-        chat_history=state["chat_history"],
-        context=state["context"],
+        chat_history=state.get("memory", ""),
+        context=state.get("context", ""),
         question=state["question"]
     )
 

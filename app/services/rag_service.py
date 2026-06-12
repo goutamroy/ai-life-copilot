@@ -11,19 +11,19 @@ class RAGService:
         conversation_id: int
     ):
 
-        graph = build_graph(
-            db=db,
-            user_id=user_id,
-            conversation_id = conversation_id
-        )
+        graph = build_graph()
 
         result = graph.invoke(
             {
                 "question": question,
-                "chat_history": "",
+                "route": "",
                 "context": "",
+                "memory": "",
                 "chunk_ids": [],
-                "answer": ""
+                "answer": "",
+                "user_id": user_id,
+                "conversation_id": conversation_id,
+                "db": db
             }
         )
 
