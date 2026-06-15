@@ -18,16 +18,13 @@ class ChatAgent:
 
         result = self.graph.invoke(
             {
-                "conversation_id":
-                    conversation_id,
-
-                "user_message":
-                    message,
-
-                "context":
-                    context,
-
-                "response": ""
+                "conversation_id": conversation_id,
+                "question": message,
+                "context": context,   
+                "response": "",
+                "route": "",
+                "memory": "",
+                "chunk_ids": []
             }
         )
 
