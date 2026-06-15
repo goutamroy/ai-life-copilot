@@ -24,7 +24,7 @@ class Settings(BaseSettings):
 
     # AWS Bedrock
     AWS_REGION: str = "us-east-1"
-    BEDROCK_MODEL_ID: str = "amazon.nova-pro-v1:0"
+    BEDROCK_MODEL_ID: str = "amazon.nova-lite-v1:0"
 
     model_config = SettingsConfigDict(
         env_file=".env",
