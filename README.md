@@ -216,34 +216,16 @@ Generated Answer
 
 ## Application Screenshots
 
-### API Documentation
-
-Comprehensive Swagger/OpenAPI documentation for all backend services.
+### Swagger API Documentation
 
 ![Swagger Overview](docs/swagger-overview1.png)
 ![Swagger Overview](docs/swagger-overview2.png)
 
----
+### Conversation Creation
 
-### User Authentication
+![Conversation Management](docs/conversation-create.png)
 
-JWT-based authentication with secure access token generation.
-
-![Authentication](docs/auth-login.png)
-
----
-
-### Conversation Management
-
-Create and manage persistent AI conversations.
-
-![Conversation Management](docs/create-conversation.png)
-
----
-
-### Document Upload & Processing
-
-Upload PDF documents for chunking, embedding generation, and vector storage.
+### Document Upload
 
 ![Document Upload](docs/document-upload.png)
 
