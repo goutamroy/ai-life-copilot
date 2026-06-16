@@ -223,7 +223,7 @@ Generated Answer
 
 ### Conversation Creation
 
-![Conversation Management](docs/conversation-create.png)
+![Conversation Management](docs/create-conversation.png)
 
 ### Document Upload
 
