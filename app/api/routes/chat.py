@@ -227,11 +227,11 @@ def chat(
 
     ai_response = (
         ChatService.generate_ai_response(
+            db=db,
+            user_id=current_user.id,
             conversation_id=
                 conversation_id,
-
             context=context,
-
             message=request.message
         )
     )

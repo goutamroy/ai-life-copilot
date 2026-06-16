@@ -88,19 +88,21 @@ class ChatService:
 
     @staticmethod
     def generate_ai_response(
-    conversation_id: int,
-    context: str,
-    message: str
+        db: Session,
+        user_id: int,
+        conversation_id: int,
+        context: str,
+        message: str
     ):
 
         agent = ChatAgent()
 
         return agent.run(
+            db=db,
+            user_id=user_id,
             conversation_id=
                 conversation_id,
-
             context=context,
-
             message=message
         )
     
